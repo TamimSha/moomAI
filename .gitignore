@@ -3,3 +3,9 @@ datasets/
 
 # Test file
 test.py
+
+# VS Code
+.vscode/
+
+# Output
+results/
