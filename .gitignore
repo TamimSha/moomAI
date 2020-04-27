@@ -9,3 +9,6 @@ test.py
 
 # Output
 results/
+
+# Temp Files
+__pycache__/

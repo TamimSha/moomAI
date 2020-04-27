@@ -1,0 +1,16 @@
+{
+  "count": 8,
+  "files": [
+    { "type": ".avi", "name": "01" },
+    { "type": ".avi", "name": "02" },
+    { "type": ".avi", "name": "03" },
+    { "type": ".avi", "name": "04" },
+    { "type": ".avi", "name": "05" },
+    { "type": ".avi", "name": "06" },
+    { "type": ".avi", "name": "07" },
+    { "type": ".avi", "name": "08" }
+  ],
+  "output": "datasets/outputs/",
+  "location": "datasets/videofiles/",
+  "batch_size": 4000
+}
