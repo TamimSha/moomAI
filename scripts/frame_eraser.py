@@ -29,15 +29,18 @@ def frame_eraser():
     except:
         return 0
 
+    resolution_x = files['resolution'][0]
+    resolution_y = files['resolution'][1]
+
     global BATCH_SIZE
     BATCH_SIZE = files['batch_size']
 
     global NUM_THREADS
-    NUM_THREADS = 8
+    NUM_THREADS = 16
     imageNames = __getImageNames(files['output'])
 
-    for batch in range(68, math.floor(len(imageNames) / BATCH_SIZE) + 1):
-        print(f"\nBatch: {batch} of {math.floor(len(imageNames) / BATCH_SIZE)}")
+    for batch in range(0, math.floor(len(imageNames) / BATCH_SIZE) + 1):
+        print(f"\nBatch: {batch + 1} of {math.floor(len(imageNames) / BATCH_SIZE) + 1}")
         batch_host = np.empty(0, dtype=object)
         threads = []
         start = batch * BATCH_SIZE
@@ -72,7 +75,6 @@ def frame_eraser():
             batch_host = np.append(batch_host, temp)
         for t in threads:
             t.join()
-        print(len(batch_host))
         batch_device = np.zeros_like(batch_host)
         print("Copying from RAM to GPU")
         with progressbar.ProgressBar(max_value=batch_length) as bar:
@@ -83,14 +85,14 @@ def frame_eraser():
         
         # CUDA Absolute Image Subtraction
         diffBlock = (8,8,3)
-        diffGrid = (90,68,1)
+        diffGrid = (int(resolution_x / 8), int(resolution_y / 8), 1)
 
         h_diffImage_int = np.zeros_like(batch_host[0], dtype=np.uint8)
         d_diffImage_int = driver.mem_alloc(h_diffImage_int.nbytes) # pylint: disable=no-member
         getImgDiff = __module.get_function("cuda_GetImgDiff")
 
         # CUDA Sum Image
-        num_block = 2295
+        num_block = int(resolution_x * resolution_y * 3 / 512)
         block = (512,1,1)
         grid = (num_block,1,1)
 
@@ -111,7 +113,7 @@ def frame_eraser():
             pivot = 0
             threshold = 1.0e+35
             for i in range(0, batch_length - 1):
-                getImgDiff(d_diffImage_int, batch_device[pivot], batch_device[i+1], block=diffBlock, grid=diffGrid)
+                getImgDiff(d_diffImage_int, batch_device[pivot], batch_device[i+1], np.int32(resolution_x), block=diffBlock, grid=diffGrid)
                 byteToFloat(d_diffImage_float, d_diffImage_int, block=block, grid=grid)
                 sumPixels(d_diffImage_float, d_sum, block=block, grid=grid)
                 driver.memcpy_dtoh(h_sum, d_sum) # pylint: disable=no-member
@@ -126,7 +128,6 @@ def frame_eraser():
         for i in imagesToDelete:
             #os.remove(files['output']+imageName_Batch[i])
             pass
-        print(imageName_Batch[-1])
         print(f'Deleted: {len(imagesToDelete)} images')
         
         #getImgDiff(d_diffImage_int, batch_device[1000], batch_device[1001], block=diffBlock, grid=diffGrid)

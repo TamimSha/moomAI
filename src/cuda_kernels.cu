@@ -1,6 +1,6 @@
-__global__ void cuda_GetImgDiff(unsigned char *dest, unsigned char *a, unsigned char *b) {
+__global__ void cuda_GetImgDiff(unsigned char *dest, unsigned char *a, unsigned char *b, int res) {
     int x = 3*threadIdx.x + 3*(blockIdx.x * blockDim.x);
-    int y = (3*720)*threadIdx.y + (3*720)*(blockIdx.y * blockDim.y);
+    int y = (3 * res)*threadIdx.y + (3 * res)*(blockIdx.y * blockDim.y);
     int z = threadIdx.z;
     int i = (x + y + z);
     if(a[i] >= b[i]){

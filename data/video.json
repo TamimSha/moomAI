@@ -10,6 +10,7 @@
     { "type": ".avi", "name": "07" },
     { "type": ".avi", "name": "08" }
   ],
+  "resolution": [720, 544],
   "output": "datasets/outputs/",
   "location": "datasets/videofiles/",
   "batch_size": 4000
