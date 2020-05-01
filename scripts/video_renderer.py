@@ -3,16 +3,15 @@ import time
 import cv2
 import sys
 import threading
-from FrameRenderer import FrameRenderer
 import json
+
+from .thread_classes.FrameRenderer import FrameRenderer
+from data.data import getData
 
 def video_renderer():
 
-    try:
-        with open('./data/video.json', 'r') as data:
-            data = data.read()
-        files = json.loads(data)
-    except:
+    files = getData()
+    if (files == 0):
         return 0
 
     threads = []

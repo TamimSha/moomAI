@@ -12,7 +12,8 @@ import pycuda.autoinit
 import pycuda.driver as driver
 from pycuda.compiler import SourceModule
 
-from ImageLoader import ImageLoader
+from .thread_classes.ImageLoader import ImageLoader
+from data.data import getData
 
 BATCH_SIZE = 0
 NUM_THREADS = 0
@@ -22,11 +23,8 @@ with open('./src/cuda_kernels.cu', 'r') as file:
 __module = SourceModule(source)
 
 def frame_eraser():
-    try:
-        with open('./data/video.json', 'r') as data:
-            data = data.read()
-        files = json.loads(data)
-    except:
+    files = getData()
+    if (files == 0):
         return 0
 
     resolution_x = files['resolution'][0]
@@ -138,7 +136,7 @@ def frame_eraser():
         #if batch >= 5:
         #    return
         
-    return 0
+    return 1
 
 def __getImageNames(path):
     files = os.listdir(path)
@@ -147,11 +145,3 @@ def __getImageNames(path):
         if file[-4:] == ".jpg":
             imageNames.append(file)
     return imageNames
-
-def displayImage(imgArr):
-    img = Image.fromarray(imgArr, 'RGB')
-    b, g, r = img.split()
-    img = Image.merge("RGB", (r, g, b))
-    img.show()
-
-frame_eraser()
