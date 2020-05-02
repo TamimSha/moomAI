@@ -29,7 +29,7 @@ def diversifier():
 
     imageNames = getImageNames(path_frames)
     threads = []
-    NUM_THREADS = 1
+    NUM_THREADS = 16
     length = len(imageNames)
 
     for i in range(0, NUM_THREADS):

@@ -38,8 +38,6 @@ def frame_eraser():
     global NUM_THREADS
     NUM_THREADS = 16
     imageNames = __getImageNames(path)
-    print(imageNames[0])
-    print(len(imageNames))
 
     for batch in range(0, math.floor(len(imageNames) / BATCH_SIZE) + 1):
         print(f"\nBatch: {batch + 1} of {math.floor(len(imageNames) / BATCH_SIZE) + 1}")
@@ -113,7 +111,7 @@ def frame_eraser():
         pixelSum = 0
         with progressbar.ProgressBar(max_value=batch_length) as bar:
             pivot = 0
-            threshold = 1.0e+37
+            threshold = 2.0e+37
             for i in range(0, batch_length - 1):
                 getImgDiff(d_diffImage_int, batch_device[pivot], batch_device[i+1], np.int32(resolution_x), block=diffBlock, grid=diffGrid)
                 byteToFloat(d_diffImage_float, d_diffImage_int, block=block, grid=grid)

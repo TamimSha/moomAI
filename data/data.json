@@ -1,5 +1,5 @@
 {
-  "count": 1,
+  "count": 14,
   "files": [
     { "type": ".avi", "name": "01" },
     { "type": ".avi", "name": "02" },
@@ -8,11 +8,19 @@
     { "type": ".avi", "name": "05" },
     { "type": ".avi", "name": "06" },
     { "type": ".avi", "name": "07" },
-    { "type": ".avi", "name": "08" }
+    { "type": ".avi", "name": "08" },
+    { "type": ".avi", "name": "09" },
+    { "type": ".avi", "name": "10" },
+    { "type": ".avi", "name": "11" },
+    { "type": ".avi", "name": "12" },
+    { "type": ".avi", "name": "13" },
+    { "type": ".avi", "name": "14" }
   ],
+  "starting": 2300,
+  "ending": 1750,
   "resolution": [720, 544],
   "output": "datasets/dataset_",
-  "number": "02/",
+  "number": "05/",
   "path": "datasets/frames_",
   "location": "datasets/videofiles/",
   "batch_size": 4000
