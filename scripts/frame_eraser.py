@@ -124,9 +124,9 @@ def frame_eraser():
                 bar.update(i)
 
         for i in imagesToDelete:
-            #os.remove(files['output']+imageName_Batch[i])
+            os.remove(files['output']+imageName_Batch[i])
             pass
-        print(f'Deleted: {len(imagesToDelete)} images')
+        print(f'Deleted: {len(imagesToDelete)} images\n')
         
         #getImgDiff(d_diffImage_int, batch_device[1000], batch_device[1001], block=diffBlock, grid=diffGrid)
         #driver.memcpy_dtoh(h_diffImage_int, d_diffImage_int)

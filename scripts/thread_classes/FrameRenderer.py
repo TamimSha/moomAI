@@ -44,8 +44,11 @@ class FrameRenderer(threading.Thread):
                 hasFrame, image = self.video.read()
                 if hasFrame:
                     index += 1
-                    self.__progress = index / self.totalFrames
-                    cv2.imwrite(self.output+self.name+"_{:05d}".format(index)+".jpg", image)
+                    (h, w) = image.shape[:2]
+                    test = image[h//4, w//4].all() == 0 and image[h//4, 3*w//4].all() == 0 and image[3*h//4, 3*w//4].all() == 0 and image[3*h//4, w//4].all() == 0
+                    if(not test):
+                        self.__progress = index / self.totalFrames
+                        cv2.imwrite(self.output+self.name+"_{:05d}".format(index)+".jpg", image)
                 else:
                     self.__alive = False
             else:
