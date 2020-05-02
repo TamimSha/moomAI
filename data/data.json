@@ -1,5 +1,5 @@
 {
-  "count": 8,
+  "count": 1,
   "files": [
     { "type": ".avi", "name": "01" },
     { "type": ".avi", "name": "02" },
@@ -11,7 +11,9 @@
     { "type": ".avi", "name": "08" }
   ],
   "resolution": [720, 544],
-  "output": "datasets/outputs/",
+  "output": "datasets/dataset_",
+  "number": "02/",
+  "path": "datasets/frames_",
   "location": "datasets/videofiles/",
   "batch_size": 4000
 }

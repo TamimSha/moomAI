@@ -4,6 +4,7 @@ import cv2
 import sys
 import threading
 import json
+import os
 
 from .thread_classes.FrameRenderer import FrameRenderer
 from data.data import getData
@@ -14,12 +15,16 @@ def video_renderer():
     if (files == 0):
         return 0
 
+    path = files['path'] + files['number']
+    if not os.path.exists(path):
+        os.mkdir(path)
+
     threads = []
     fileNum = files['count']
 
     for i in range(0, fileNum):
         frameRenderer = FrameRenderer(files['files'][i]['name'] + "_",
-            files['output'],
+            path,
             files['location']+files['files'][i]['name']+files['files'][i]['type'])
         threads.append(frameRenderer)
     

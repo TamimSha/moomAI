@@ -26,6 +26,8 @@ def frame_eraser():
     files = getData()
     if (files == 0):
         return 0
+    
+    path = files['path'] + files['number']
 
     resolution_x = files['resolution'][0]
     resolution_y = files['resolution'][1]
@@ -35,7 +37,9 @@ def frame_eraser():
 
     global NUM_THREADS
     NUM_THREADS = 16
-    imageNames = __getImageNames(files['output'])
+    imageNames = __getImageNames(path)
+    print(imageNames[0])
+    print(len(imageNames))
 
     for batch in range(0, math.floor(len(imageNames) / BATCH_SIZE) + 1):
         print(f"\nBatch: {batch + 1} of {math.floor(len(imageNames) / BATCH_SIZE) + 1}")
@@ -51,9 +55,9 @@ def frame_eraser():
         
         for i in range(0, NUM_THREADS):
             if i == NUM_THREADS - 1:
-                imageLoader = ImageLoader(imageName_Batch[i * threadBatch:batch_length], files['output'])
+                imageLoader = ImageLoader(imageName_Batch[i * threadBatch:batch_length], path)
             else:
-                imageLoader = ImageLoader(imageName_Batch[i * threadBatch:(i+1) * threadBatch], files['output'])
+                imageLoader = ImageLoader(imageName_Batch[i * threadBatch:(i+1) * threadBatch], path)
             threads.append(imageLoader)
         for t in threads:
             t.start()
@@ -109,7 +113,7 @@ def frame_eraser():
         pixelSum = 0
         with progressbar.ProgressBar(max_value=batch_length) as bar:
             pivot = 0
-            threshold = 1.0e+35
+            threshold = 1.0e+37
             for i in range(0, batch_length - 1):
                 getImgDiff(d_diffImage_int, batch_device[pivot], batch_device[i+1], np.int32(resolution_x), block=diffBlock, grid=diffGrid)
                 byteToFloat(d_diffImage_float, d_diffImage_int, block=block, grid=grid)
@@ -124,7 +128,7 @@ def frame_eraser():
                 bar.update(i)
 
         for i in imagesToDelete:
-            os.remove(files['output']+imageName_Batch[i])
+            os.remove(path+imageName_Batch[i])
             pass
         print(f'Deleted: {len(imagesToDelete)} images\n')
         
