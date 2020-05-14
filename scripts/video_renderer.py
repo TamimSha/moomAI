@@ -1,6 +1,6 @@
+import cv2
 import progressbar
 import time
-import cv2
 import sys
 import threading
 import json
