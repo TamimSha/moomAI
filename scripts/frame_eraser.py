@@ -111,7 +111,7 @@ def frame_eraser():
         pixelSum = 0
         with progressbar.ProgressBar(max_value=batch_length) as bar:
             pivot = 0
-            threshold = 2.0e+37
+            threshold = 2.0e+38
             for i in range(0, batch_length - 1):
                 getImgDiff(d_diffImage_int, batch_device[pivot], batch_device[i+1], np.int32(resolution_x), block=diffBlock, grid=diffGrid)
                 byteToFloat(d_diffImage_float, d_diffImage_int, block=block, grid=grid)

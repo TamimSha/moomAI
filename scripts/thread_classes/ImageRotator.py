@@ -30,7 +30,10 @@ class ImageRotator(threading.Thread):
             image = cv2.imread(self.__path + imageName, -1)
             i = 0
             while i < self.__iterations:
-                s = random.random() + 1
+                #s = random.random() + 1
+                #s = 2
+                s = 2 * random.random() + 1
+                #Roation
                 M = cv2.getRotationMatrix2D((w / 2, h / 2), random.randint(1, 360), 1)
                 rotated = cv2.warpAffine(image, M, (w, h))
                 
@@ -38,6 +41,12 @@ class ImageRotator(threading.Thread):
                 crop_width = random.randint(0, w - int(w//s))
                 cropped = rotated[crop_height:crop_height+int(h//s), crop_width:crop_width+int(w//s)]
                 test = cropped[0, 0].all() == 0 or cropped[int(h//s)-1, 0].all() == 0 or cropped[0, int(w//s)-1].all() == 0 or cropped[int(h//s)-1, int(w//s)-1].all() == 0
+                '''
+                crop_height = random.randint(0, h - int(h//s))
+                crop_width = random.randint(0, w - int(w//s))
+                cropped = image[crop_height:crop_height+int(h//s), crop_width:crop_width+int(w//s)]
+                test = cropped[0, 0].all() == 0 or cropped[int(h//s)-1, 0].all() == 0 or cropped[0, int(w//s)-1].all() == 0 or cropped[int(h//s)-1, int(w//s)-1].all() == 0
+                '''
                 '''
                 crop_height = random.randint(0, int(h//2))
                 crop_width = random.randint(0, int(w//2))

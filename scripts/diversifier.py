@@ -9,7 +9,7 @@ from .thread_classes.ImageRotator import ImageRotator
 from .helper_tools import displayImage, getImageNames
 from data.data import getData
 
-def diversifier():
+def diversifier(rotate=False):
 
     files = getData()
     if (files == 0):
@@ -34,7 +34,7 @@ def diversifier():
 
     for i in range(0, NUM_THREADS):
         imageRotator = ImageRotator(imageNames[i*length//NUM_THREADS:(i+1)*length//NUM_THREADS],
-        path_frames, files['output']+files['number'], 3, 2)
+        path_frames, files['output']+files['number'], 1, 2)
         threads.append(imageRotator)
     for t in threads:
         t.start()

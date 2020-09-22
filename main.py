@@ -3,9 +3,9 @@ from data import data
 
 #diversifier()
 
-done = video_renderer()
-if(done):
-    done = frame_eraser()
-if(done):
-    done = diversifier()
+#done = video_renderer()
+#if(done):
+#done = frame_eraser()
+#if(done):
+done = diversifier()
 print(done)
